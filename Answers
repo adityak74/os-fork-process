@@ -1,0 +1,132 @@
+OS-PROJECT 1
+
+1.Run Program 3.1 and observe the results for different numbers of processes.
+
+-bash-4.2$ ./forkos 2
+i:1  process ID:32712  parent ID:31909  child ID:32713
+i:2  process ID:32713  parent ID:32712  child ID:0
+
+-bash-4.2$ ./forkos 4
+i:1  process ID:376  parent ID:31909  child ID:377
+i:2  process ID:377  parent ID:376  child ID:378
+i:3  process ID:378  parent ID:377  child ID:379
+i:4  process ID:379  parent ID:378  child ID:0
+
+-bash-4.2$ ./forkos 10
+i:1  process ID:446  parent ID:31909  child ID:447
+i:2  process ID:447  parent ID:1  child ID:448
+i:3  process ID:448  parent ID:447  child ID:449
+-bash-4.2$ i:4  process ID:449  parent ID:1  child ID:450
+i:5  process ID:450  parent ID:449  child ID:451
+i:6  process ID:451  parent ID:450  child ID:452
+i:7  process ID:452  parent ID:1  child ID:453
+i:8  process ID:453  parent ID:452  child ID:454
+i:9  process ID:454  parent ID:1  child ID:455
+i:10  process ID:455  parent ID:1  child ID:0
+
+-bash-4.2$ ./forkos 15
+i:1  process ID:556  parent ID:31909  child ID:557
+i:2  process ID:557  parent ID:1  child ID:558
+-bash-4.2$ i:3  process ID:558  parent ID:557  child ID:559
+i:4  process ID:559  parent ID:1  child ID:560
+i:5  process ID:560  parent ID:559  child ID:561
+i:6  process ID:561  parent ID:560  child ID:562
+i:7  process ID:562  parent ID:1  child ID:563
+i:8  process ID:563  parent ID:562  child ID:564
+i:9  process ID:564  parent ID:1  child ID:565
+i:10  process ID:565  parent ID:1  child ID:566
+i:11  process ID:566  parent ID:565  child ID:567
+i:12  process ID:567  parent ID:1  child ID:568
+i:13  process ID:568  parent ID:567  child ID:569
+i:14  process ID:569  parent ID:1  child ID:570
+i:15  process ID:570  parent ID:569  child ID:0
+
+-bash-4.2$ ./forkos 20
+i:1  process ID:573  parent ID:31909  child ID:574
+i:2  process ID:574  parent ID:573  child ID:575
+i:3  process ID:575  parent ID:1  child ID:576
+-bash-4.2$ i:4  process ID:576  parent ID:1  child ID:577
+i:5  process ID:577  parent ID:576  child ID:578
+i:6  process ID:578  parent ID:577  child ID:579
+i:7  process ID:579  parent ID:1  child ID:580
+i:8  process ID:580  parent ID:579  child ID:581
+i:9  process ID:581  parent ID:580  child ID:582
+i:10  process ID:582  parent ID:581  child ID:583
+i:11  process ID:583  parent ID:1  child ID:584
+i:12  process ID:584  parent ID:583  child ID:585
+i:13  process ID:585  parent ID:584  child ID:586
+i:14  process ID:586  parent ID:1  child ID:587
+i:15  process ID:587  parent ID:1  child ID:588
+i:16  process ID:588  parent ID:1  child ID:589
+i:17  process ID:589  parent ID:1  child ID:590
+i:18  process ID:590  parent ID:589  child ID:591
+i:19  process ID:591  parent ID:590  child ID:592
+i:20  process ID:592  parent ID:591  child ID:0
+
+-bash-4.2$ ./forkos 25
+i:1  process ID:8500  parent ID:31909  child ID:8501
+i:2  process ID:8501  parent ID:1  child ID:8502
+i:3  process ID:8502  parent ID:1  child ID:8503
+i:4  process ID:8503  parent ID:8502  child ID:8504
+i:5  process ID:8504  parent ID:8503  child ID:8505
+-bash-4.2$ i:6  process ID:8505  parent ID:1  child ID:8506
+i:7  process ID:8506  parent ID:1  child ID:8507
+i:8  process ID:8507  parent ID:1  child ID:8508
+i:9  process ID:8508  parent ID:8507  child ID:8509
+i:10  process ID:8509  parent ID:8508  child ID:8510
+i:11  process ID:8510  parent ID:1  child ID:8511
+i:12  process ID:8511  parent ID:8510  child ID:8512
+i:13  process ID:8512  parent ID:8511  child ID:8513
+i:14  process ID:8513  parent ID:1  child ID:8514
+i:15  process ID:8514  parent ID:8513  child ID:8515
+i:16  process ID:8515  parent ID:1  child ID:8516
+i:17  process ID:8516  parent ID:1  child ID:8517
+i:18  process ID:8517  parent ID:8516  child ID:8518
+i:19  process ID:8518  parent ID:1  child ID:8519
+i:20  process ID:8519  parent ID:8518  child ID:8520
+i:21  process ID:8520  parent ID:8519  child ID:8521
+i:22  process ID:8521  parent ID:1  child ID:8522
+i:23  process ID:8522  parent ID:8521  child ID:8523
+i:24  process ID:8523  parent ID:8522  child ID:8524
+i:25  process ID:8524  parent ID:8523  child ID:0
+
+<Explanation here>
+
+2. Fill in the actual process IDs of the processes in the diagram of Figure 3.2 for a run with command-line argument value of 4.
+
+( 376 )
+   |
+  \_/   
+( 377 )
+   |
+  \_/
+( 378 )
+   |
+  \_/
+( 379 ) 
+
+3. Experiment with different values for the command-line argument to find out the largest number of processes that the program can generate. Observe the fraction that are adopted by init.
+N	ProgOwned	InitOwned	Fraction
+2	2		0		0
+4	4		0		0
+10	6		4		40%
+15	8		7		47%
+20	12		8		40%
+25	14		11		44%
+
+On Average 42% of process are adopted by init.
+
+4. Place sleep(10); directly before the final fprintf statement in Program 3.1. What is the maximum number of processes generated in this case?
+N	ProgOwned	InitOwned	Fraction	ProcessGenrated	
+2	2		0		0		2
+4	4		0		0		4
+10	7		3		30%		10
+15	10		5		33%		15
+20	9		11		55%		20
+25	11		14		58%		24
+30	9		15		62%		24
+
+5. Put a loop around the final fprintf in Program 3.1. Have the loop execute k times. Put sleep(m); inside this loop after the fprintf. Pass k and m on the command line. Run the program for several values of n, k and m. Observe the results.
+
+
+
