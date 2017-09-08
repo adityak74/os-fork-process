@@ -5,7 +5,7 @@
 int main (int argc, char *argv[]) {
    pid_t childpid = 0;
    int i, n, k, m, index;
-   int c;
+   int c, nonoptarg;
 
    opterr = 0;
    
@@ -42,14 +42,30 @@ int main (int argc, char *argv[]) {
 	  	return -1;
 	  }
 	  
-	  for (index = optind; index < argc; index++)
-    	printf ("Non-option argument %s\n", argv[index]);	   
+	  if( optind < argc ) {
+	  		nonoptarg = 1;
+	  	for (index = optind; index < argc; index++){
+    		printf ("Non-option argument %s\n", argv[index]);
+      	}
+      }
+    	
+      if(nonoptarg){
+      		fprintf(stderr, "Try `%s -h' for more information.\n", argv[0]);
+	  		return -1;
+	  }
+	  
+	  if(n < 1 || k < 1 || m < 1) { 
+	  		fprintf(stderr, "%s Error: values of optional params should be greater than 0.\n", argv[0]);
+	  		return -1;
+	  }
 
    // for (i = 1; i < n; i++)
 //       if (childpid = fork())
 //          break;
-   
-//    fprintf(stderr, "i:%d  process ID:%ld  parent ID:%ld  child ID:%ld\n",
+//    for(i = 0; i < k; i++) {
+//    		fprintf(stderr, "i:%d  process ID:%ld  parent ID:%ld  child ID:%ld\n",
 //            i, (long)getpid(), (long)getppid(), (long)childpid);
+//         sleep(m);
+//    }
    return 0;
 }
