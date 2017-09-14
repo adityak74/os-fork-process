@@ -224,7 +224,7 @@ i:1 process ID:5452 parent ID:4324 child ID:5453
  ; i:9 process ID:5460 parent ID:1 child ID:5461
  ; i:10 process ID:5461 parent ID:1 child ID:0
 
-Each forked child has the init as the parent process instead of the program being as the parent to each of the child process. 
+No, we can’t tell exactly which process is executing which statements, since we don’t wait for the child process to exit completely.
 
 8. Modify Program 3.1 by replacing the final fprintf statement with a loop that reads 
 nchars characters from standard input, one character at a time, and puts them in an array called mybuf. The values of n and nchars should be passed as command-line arguments. After the loop, put a '\0' character in entry nchars of the array so that it contains a string. Output to standard error in a single fprintf the process ID followed by a colon followed by the string in mybuf. Run the program for several values of n and nchars. Observe the results. Press the Return key often and continue typing at the keyboard until all of the processes have exited.
@@ -257,4 +257,4 @@ Character being entered for process4 for iter2:
 Character being entered for process4 for iter3: 
 Character being entered for process4 for iter4: processID 27837 : t
 
-Observation, as it goes, the stdin for each fork is interrupted and it goes unto the very child process to accept the character input. Using wait() after the fork() gives the process to wait for the child to complete execution so that it can complete reading the input.
+Observation, as it goes, the stdin for each fork is interrupted and it goes unto the very child process to accept the character input. Using wait() after the fork() gives the process to wait for the child to complete execution so that it can complete reading the input. The source code has the fix commented out. 
