@@ -10,7 +10,7 @@ int main (int argc, char *argv[]) {
    opterr = 0;
    
    if ( argc < 2 ) {
-   		fprintf(stderr, "Usage : %s -n <int> -k <int> -m <int>\n", argv[0] );
+   		fprintf(stderr, "Usage : %s -n processes -k loops -m timetosleep\n", argv[0] );
 	    return 1;
    }
 
@@ -27,13 +27,13 @@ int main (int argc, char *argv[]) {
 	      m = atoi(optarg);
 	      break;
 	  case 'h':
-	      fprintf(stderr, "Usage : %s -n <int> -k <int> -m <int>\nn = number of process to fork\nk = number of times to loop\nm = time to sleep in millis\n\n", argv[0] );
+	      fprintf(stderr, "Usage : %s -n processes -k loops -m timetosleep\nn = number of process to fork\nk = number of times to loop\nm = time to sleep in millis\n\n", argv[0] );
 	      return 1;
 	  case '?':
 	      fprintf(stderr, "Try `%s -h' for more information.\n", argv[0]);
 		  return -1;
 	  default:
-	      fprintf(stderr, "Usage: %s -n <int> -k <int> -m <int>\n", argv[0]);
+	      fprintf(stderr, "Usage: %s -n processes -k loops -m timetosleep\n", argv[0]);
 	      abort();
 	  }
 	  
@@ -55,7 +55,7 @@ int main (int argc, char *argv[]) {
 	  }
 	  
 	  if(n < 1 || k < 1 || m < 1) { 
-	  		fprintf(stderr, "%s Error: values of optional params should be greater than 0.\n", argv[0]);
+	  		fprintf(stderr, "%s Error: values of params should be greater than 0.\n", argv[0]);
 	  		return -1;
 	  }
 

@@ -229,3 +229,32 @@ Each forked child has the init as the parent process instead of the program bein
 8. Modify Program 3.1 by replacing the final fprintf statement with a loop that reads 
 nchars characters from standard input, one character at a time, and puts them in an array called mybuf. The values of n and nchars should be passed as command-line arguments. After the loop, put a '\0' character in entry nchars of the array so that it contains a string. Output to standard error in a single fprintf the process ID followed by a colon followed by the string in mybuf. Run the program for several values of n and nchars. Observe the results. Press the Return key often and continue typing at the keyboard until all of the processes have exited.
 
+-bash-4.2$ ./forkos -n 4 -k 5
+
+Character being entered for process1 for iter0: 
+Character being entered for process2 for iter0: 
+Character being entered for process3 for iter0: 
+Character being entered for process4 for iter0: q
+
+Character being entered for process1 for iter1: 
+Character being entered for process1 for iter2: w
+
+Character being entered for process1 for iter3: 
+Character being entered for process1 for iter4: e
+processID 27834 : q
+w
+e-bash-4.2$ 
+Character being entered for process2 for iter1: 
+Character being entered for process2 for iter2: 
+Character being entered for process2 for iter3: 
+Character being entered for process2 for iter4: processID 27835 : r
+Character being entered for process3 for iter1: 
+Character being entered for process3 for iter2: 
+Character being entered for process3 for iter3: 
+Character being entered for process3 for iter4: processID 27836 : 
+Character being entered for process4 for iter1: 
+Character being entered for process4 for iter2: 
+Character being entered for process4 for iter3: 
+Character being entered for process4 for iter4: processID 27837 : t
+
+Observation, as it goes, the stdin for each fork is interrupted and it goes unto the very child process to accept the character input. Using wait() after the fork() gives the process to wait for the child to complete execution so that it can complete reading the input.

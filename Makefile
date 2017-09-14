@@ -3,18 +3,20 @@
 # September, 2017
 
 CC	= gcc
-TARGET	= forkos
-OBJS	= os_fork.o
+TARGETS	= forkos forkos_1_3 forkos_4 forkos_5 forkos_6 forkos_7
+OBJS	= forkos.o forkos_1_3.o forkos_4.o forkos_5.o forkos_6.o forkos_7.o
 SRCDIR  = src
 
-$(TARGET):	$(OBJS)
-		$(CC) -o $(TARGET) $(OBJS)
+all: $(TARGETS)
 
-os_fork.o:	$(SRCDIR)/os_fork.c
-		$(CC) -c $(SRCDIR)/os_fork.c
+$(TARGETS): % : %.o
+		$(CC) -o $@ $<
+
+$(OBJS) : %.o : $(SRCDIR)/%.c
+		$(CC) -c $<
 
 clean:
-		/bin/rm -f *.o $(TARGET)
+		/bin/rm -f *.o $(TARGETS)
 
 cleanobj: 
 		/bin/rm -f *.o
