@@ -90,8 +90,6 @@ i:23  process ID:8522  parent ID:8521  child ID:8523
 i:24  process ID:8523  parent ID:8522  child ID:8524
 i:25  process ID:8524  parent ID:8523  child ID:0
 
-<Explanation here>
-
 2. Fill in the actual process IDs of the processes in the diagram of Figure 3.2 for a run with command-line argument value of 4.
 
 ( 376 )
@@ -115,9 +113,10 @@ N	ProgOwned	InitOwned	Fraction
 25	14		11		44%
 
 On Average 42% of process are adopted by init.
+Largest number of process the program could generate was 30.
 
 4. Place sleep(10); directly before the final fprintf statement in Program 3.1. What is the maximum number of processes generated in this case?
-N	ProgOwned	InitOwned	Fraction	ProcessGenrated	
+N	ProgOwned	InitOwned	Fraction	ProcessGenerated	
 2	2		0		0		2
 4	4		0		0		4
 10	7		3		30%		10
@@ -126,7 +125,107 @@ N	ProgOwned	InitOwned	Fraction	ProcessGenrated
 25	11		14		58%		24
 30	9		15		62%		24
 
+Max Processes Generated : 24.
+
 5. Put a loop around the final fprintf in Program 3.1. Have the loop execute k times. Put sleep(m); inside this loop after the fprintf. Pass k and m on the command line. Run the program for several values of n, k and m. Observe the results.
 
+The child processes getting forked complete execution and exit, since we sleep for some time frame, also for the next print loop previous childpid’s are free as they completed execution, they are re used.
 
+./forkos -n2 -k5 -m10
+i:1  process ID:4733  parent ID:4324  child ID:4734
+i:2  process ID:4734  parent ID:4733  child ID:0
+i:1  process ID:4733  parent ID:4324  child ID:4734
+i:2  process ID:4734  parent ID:4733  child ID:0
+i:1  process ID:4733  parent ID:4324  child ID:4734
+i:2  process ID:4734  parent ID:4733  child ID:0
+i:1  process ID:4733  parent ID:4324  child ID:4734
+i:2  process ID:4734  parent ID:4733  child ID:0
+i:1  process ID:4733  parent ID:4324  child ID:4734
+i:2  process ID:4734  parent ID:4733  child ID:0
+
+
+6. Modify Program 3.1 by putting a wait function call before the final fprintf statement. How does this affect the output of the program?
+
+-bash-4.2$ ./forkos 4
+i:4  process ID:19436  parent ID:19435  child ID:0
+i:3  process ID:19435  parent ID:19434  child ID:19436
+i:2  process ID:19434  parent ID:19433  child ID:19435
+i:1  process ID:19433  parent ID:6117  child ID:19434
+
+-bash-4.2$ ./forkos 8
+i:8  process ID:19596  parent ID:19595  child ID:0
+i:7  process ID:19595  parent ID:19594  child ID:19596
+i:6  process ID:19594  parent ID:19593  child ID:19595
+i:5  process ID:19593  parent ID:19592  child ID:19594
+i:4  process ID:19592  parent ID:19591  child ID:19593
+i:3  process ID:19591  parent ID:19590  child ID:19592
+i:2  process ID:19590  parent ID:19589  child ID:19591
+i:1  process ID:19589  parent ID:6117  child ID:19590
+
+-bash-4.2$ ./forkos 16
+i:16  process ID:19873  parent ID:19872  child ID:0
+i:15  process ID:19872  parent ID:19871  child ID:19873
+i:14  process ID:19871  parent ID:19870  child ID:19872
+i:13  process ID:19870  parent ID:19869  child ID:19871
+i:12  process ID:19869  parent ID:19868  child ID:19870
+i:11  process ID:19868  parent ID:19867  child ID:19869
+i:10  process ID:19867  parent ID:19866  child ID:19868
+i:9  process ID:19866  parent ID:19865  child ID:19867
+i:8  process ID:19865  parent ID:19864  child ID:19866
+i:7  process ID:19864  parent ID:19863  child ID:19865
+i:6  process ID:19863  parent ID:19862  child ID:19864
+i:5  process ID:19862  parent ID:19861  child ID:19863
+i:4  process ID:19861  parent ID:19860  child ID:19862
+i:3  process ID:19860  parent ID:19859  child ID:19861
+i:2  process ID:19859  parent ID:19858  child ID:19860
+i:1  process ID:19858  parent ID:6117  child ID:19859
+
+-bash-4.2$ ./forkos 20
+i:20  process ID:19737  parent ID:19736  child ID:0
+i:19  process ID:19736  parent ID:19735  child ID:19737
+i:18  process ID:19735  parent ID:19734  child ID:19736
+i:17  process ID:19734  parent ID:19733  child ID:19735
+i:16  process ID:19733  parent ID:19732  child ID:19734
+i:15  process ID:19732  parent ID:19731  child ID:19733
+i:14  process ID:19731  parent ID:19730  child ID:19732
+i:13  process ID:19730  parent ID:19729  child ID:19731
+i:12  process ID:19729  parent ID:19728  child ID:19730
+i:11  process ID:19728  parent ID:19727  child ID:19729
+i:10  process ID:19727  parent ID:19726  child ID:19728
+i:9  process ID:19726  parent ID:19725  child ID:19727
+i:8  process ID:19725  parent ID:19724  child ID:19726
+i:7  process ID:19724  parent ID:19723  child ID:19725
+i:6  process ID:19723  parent ID:19722  child ID:19724
+i:5  process ID:19722  parent ID:19721  child ID:19723
+i:4  process ID:19721  parent ID:19720  child ID:19722
+i:3  process ID:19720  parent ID:19719  child ID:19721
+i:2  process ID:19719  parent ID:19718  child ID:19720
+i:1  process ID:19718  parent ID:6117  child ID:19719
+
+wait() function - all the processes are forked and the last child is executed and other child processes wait for their child to complete execution. Hence, we observe process IDs in a decreasing order of their creation.
+
+7.Modify Program 3.1 by replacing the final fprintf statement with four fprintfstatements, one each for the four integers displayed. Only the last one should output a newline. What happens when you run this program? Can you tell which process generated each part of the output? Run the program several times and see if there is a difference in the output.
+
+-bash-4.2$ ./forkos 4
+i:1 process ID:3734 parent ID:2887 child ID:3735
+ ; i:2 process ID:3735 parent ID:1 child ID:3736
+ ; i:3 process ID:3736 parent ID:1 child ID:3737
+ ; i:4 process ID:3737 parent ID:1 child ID:0
+
+-bash-4.2$ ./a.out 10
+i:1 process ID:5452 parent ID:4324 child ID:5453
+ ; -bash-4.2$ i:2 process ID:5453 parent ID:1 child ID:5454
+ ; i:3 process ID:5454 parent ID:1 child ID:5455
+ ; i:4 process ID:5455 parent ID:1 child ID:5456
+ ; i:5 process ID:5456 parent ID:1 child ID:5457
+ ; i:6 process ID:5457 parent ID:1 child ID:5458
+ ; i:7 process ID:5458 parent ID:1 child ID:5459
+ ; i:8 process ID:5459 parent ID:1 child ID:5460
+ ; i:9 process ID:5460 parent ID:1 child ID:5461
+ ; i:10 process ID:5461 parent ID:1 child ID:0
+
+Each forked child has the init as the parent process instead of the program being as the parent to each of the child process. 
+
+8. Modify Program 3.1 by replacing the final fprintf statement with a loop that reads 
+nchars characters from standard input, one character at a time, and puts them in an array called mybuf. The values of n and nchars should be passed as command-line arguments. After the loop, put a '\0' character in entry nchars of the array so that it contains a string. Output to standard error in a single fprintf the process ID followed by a colon followed by the string in mybuf. Run the program for several values of n and nchars. Observe the results. Press the Return key often and continue typing at the keyboard until all of the processes have exited.
 

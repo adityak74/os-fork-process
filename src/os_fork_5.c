@@ -4,7 +4,7 @@
 #include <ctype.h>
 int main (int argc, char *argv[]) {
    pid_t childpid = 0;
-   int i, n, k, m, index;
+   int i, n, k, m, index, j;
    int c, nonoptarg;
 
    opterr = 0;
@@ -63,7 +63,7 @@ int main (int argc, char *argv[]) {
       if (childpid = fork())
          break;
          
-   for(i = 0; i < k; i++) {
+   for(j = 0; j < k; j++) {
    		fprintf(stderr, "i:%d  process ID:%ld  parent ID:%ld  child ID:%ld\n",
            i, (long)getpid(), (long)getppid(), (long)childpid);
         sleep(m);
