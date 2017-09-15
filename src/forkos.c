@@ -24,7 +24,8 @@ int main (int argc, char *argv[]) {
 	      nchars = atoi(optarg);
 	      break;
 	  case 'h':
-	      fprintf(stderr, "Usage: %s -n processes -k nchars\n", argv[0] );
+	      fprintf(stderr, "Usage: %s", argv[0] );
+	      perror(" -n processes -k nchars\n");
 	      return 1;
 	  case '?':
 	      fprintf(stderr, "Try `%s -h' for more information.\n", argv[0]);
@@ -52,9 +53,16 @@ int main (int argc, char *argv[]) {
 	  }
 	  
    char mybuf[nchars+1];
-   for (i = 1; i < n; i++)
-      if (childpid = fork())
-         break;
+   for (i = 1; i < n; i++){
+      childpid = fork();
+      if (childpid == -1) {
+      	perror("Failed to fork");
+	  }
+      break;
+   }
+         
+         
+         
    // wait(); - Fix for Prob#8
    for (j=0; j < nchars; j++){
       fprintf(stdout, "\nCharacter being entered for process%d for iter%d: ", i, j);

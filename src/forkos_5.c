@@ -50,7 +50,8 @@ int main (int argc, char *argv[]) {
       }
     	
       if(nonoptarg){
-      		fprintf(stderr, "Try `%s -h' for more information.\n", argv[0]);
+      		fprintf(stderr, "`%s", argv[0]);
+      		perror(" -h' for more information.\n");
 	  		return -1;
 	  }
 	  
@@ -59,9 +60,13 @@ int main (int argc, char *argv[]) {
 	  		return -1;
 	  }
 
-   for (i = 1; i < n; i++)
-      if (childpid = fork())
-         break;
+   for (i = 1; i < n; i++){
+      childpid = fork();
+      if (childpid == -1) {
+      	perror("Failed to fork");
+	  }
+      break;
+   }
          
    for(j = 0; j < k; j++) {
    		fprintf(stderr, "i:%d  process ID:%ld  parent ID:%ld  child ID:%ld\n",
