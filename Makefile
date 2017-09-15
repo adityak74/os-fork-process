@@ -1,4 +1,4 @@
-# Makefile for compiling os_fork.c
+# Makefile for compiling forkos programs
 # Aditya Karnam
 # September, 2017
 
